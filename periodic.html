@@ -4,543 +4,187 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Atomic Explorer - Periodic Table</title>
-
 <style>
 *{box-sizing:border-box}
-
-body{
-margin:0;
-padding:25px;
-font-family:Arial,sans-serif;
-background:#090d20;
-color:white
-}
-
+body{margin:0;padding:25px;font-family:Arial,sans-serif;background:#090d20;color:white}
 h1{text-align:center;color:#b9a0ff}
 .subtitle{text-align:center;color:#aaa;margin-bottom:25px}
-
-#search{
-display:block;
-width:min(400px,100%);
-margin:20px auto;
-padding:13px;
-border-radius:10px;
-border:1px solid #8870c9;
-background:#171d38;
-color:white;
-font-size:16px
-}
-
+#search{display:block;width:min(400px,100%);margin:20px auto;padding:13px;border-radius:10px;border:1px solid #8870c9;background:#171d38;color:white;font-size:16px}
 .table-wrap{overflow-x:auto;padding-bottom:15px}
-
-.periodic-table{
-display:grid;
-grid-template-columns:repeat(18,minmax(58px,1fr));
-grid-template-rows:repeat(7,85px);
-gap:5px;
-min-width:1120px
-}
-
-.element{
-border:1px solid #8870c9;
-border-radius:7px;
-text-align:center;
-padding:5px 2px;
-cursor:pointer;
-transition:.2s
-}
-
-.element:hover{
-transform:scale(1.08);
-border-color:white
-}
-
-.number{
-display:block;
-text-align:left;
-font-size:10px;
-color:#eee
-}
-
-.symbol{
-display:block;
-font-size:22px;
-font-weight:bold;
-margin:7px 0 3px
-}
-
-.name{
-font-size:9px;
-overflow-wrap:anywhere
-}
-
-.alkali{background:#713d56}
-.alkaline{background:#76502f}
-.transition{background:#344f78}
-.post-transition{background:#3e646b}
-.metalloid{background:#426b4d}
-.nonmetal{background:#315f73}
-.halogen{background:#684b83}
-.noble{background:#76517b}
-.lanthanide{background:#755b31}
-.actinide{background:#71404b}
-
-.legend{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:10px;
-margin:20px auto
-}
-
-.legend span{
-padding:7px 10px;
-border-radius:6px;
-font-size:12px
-}
-
-#details{
-display:none;
-max-width:850px;
-margin:35px auto;
-padding:25px;
-background:#171d38;
-border:1px solid #8870c9;
-border-radius:15px;
-text-align:center
-}
-
-#details h2{
-color:#c5b5ff;
-font-size:30px;
-margin-bottom:20px
-}
-
-.details-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:12px;
-margin-bottom:25px
-}
-
-.details-grid p{
-background:#242047;
-padding:14px;
-border-radius:8px;
-margin:0;
-border:1px solid #514080;
-line-height:1.5
-}
-
-#atom-heading{
-color:#c5b5ff;
-margin:25px 0 5px
-}
-
-#atom-container{
-width:100%;
-height:380px;
-background:radial-gradient(circle,#20244a 0%,#0c1128 70%);
-border:1px solid #514080;
-border-radius:12px;
-overflow:hidden;
-position:relative
-}
-
-#atom-container canvas{
-display:block;
-width:100%;
-height:100%
-}
-
-.atom-note{
-font-size:12px;
-color:#aaa;
-line-height:1.6;
-margin:12px auto
-}
-
-.atom-legend{
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
-gap:18px;
-font-size:13px;
-margin:12px 0
-}
-
-.atom-legend span{
-display:flex;
-align-items:center;
-gap:6px
-}
-
-.dot{
-width:11px;
-height:11px;
-border-radius:50%;
-display:inline-block
-}
-
-.proton-dot{background:#ff626f}
-.neutron-dot{background:#b8bdce}
-.electron-dot{background:#55caff}
-
-button{
-padding:10px 20px;
-margin-top:20px;
-border:none;
-border-radius:8px;
-background:#8063c9;
-color:white;
-cursor:pointer
-}
-
-@media(max-width:500px){
-.details-grid{grid-template-columns:1fr}
-#atom-container{height:300px}
-}
+.periodic-table{display:grid;grid-template-columns:repeat(18,minmax(58px,1fr));grid-template-rows:repeat(7,85px);gap:5px;min-width:1120px}
+.element{border:1px solid #8870c9;border-radius:7px;text-align:center;padding:5px 2px;cursor:pointer;transition:.2s}
+.element:hover{transform:scale(1.08);border-color:white}
+.number{display:block;text-align:left;font-size:10px;color:#eee}
+.symbol{display:block;font-size:22px;font-weight:bold;margin:7px 0 3px}
+.name{font-size:9px;overflow-wrap:anywhere}
+.alkali{background:#713d56}.alkaline{background:#76502f}.transition{background:#344f78}
+.post-transition{background:#3e646b}.metalloid{background:#426b4d}.nonmetal{background:#315f73}
+.halogen{background:#684b83}.noble{background:#76517b}.lanthanide{background:#755b31}.actinide{background:#71404b}
+.legend{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:20px auto}
+.legend span{padding:7px 10px;border-radius:6px;font-size:12px}
+#details{display:none;max-width:850px;margin:35px auto;padding:25px;background:#171d38;border:1px solid #8870c9;border-radius:15px;text-align:center}
+#details h2{color:#c5b5ff;font-size:30px;margin-bottom:20px}
+.details-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:25px}
+.details-grid p{background:#242047;padding:14px;border-radius:8px;margin:0;border:1px solid #514080;line-height:1.5}
+#atom-heading,#qr-heading{color:#c5b5ff;margin:25px 0 10px}
+#atom-container{width:100%;height:380px;background:radial-gradient(circle,#20244a 0%,#0c1128 70%);border:1px solid #514080;border-radius:12px;overflow:hidden}
+#atom-container canvas{display:block;width:100%;height:100%}
+.atom-note{font-size:12px;color:#aaa;line-height:1.6;margin:12px auto}
+.atom-legend{display:flex;justify-content:center;flex-wrap:wrap;gap:18px;font-size:13px;margin:12px 0}
+.atom-legend span{display:flex;align-items:center;gap:6px}
+.dot{width:11px;height:11px;border-radius:50%;display:inline-block}
+.proton-dot{background:#ff626f}.neutron-dot{background:#b8bdce}.electron-dot{background:#55caff}
+#qr-area{display:flex;flex-direction:column;align-items:center;gap:12px;padding:18px;background:#10162f;border:1px solid #514080;border-radius:12px}
+#qrcode{background:white;padding:12px;border-radius:8px;min-width:164px;min-height:164px;display:flex;align-items:center;justify-content:center}
+#qr-link{font-size:12px;color:#b9a0ff;overflow-wrap:anywhere;max-width:100%}
+button{padding:10px 20px;margin-top:12px;border:none;border-radius:8px;background:#8063c9;color:white;cursor:pointer}
+button:hover{background:#967ce0}
+@media(max-width:500px){.details-grid{grid-template-columns:1fr}#atom-container{height:300px}}
 </style>
 </head>
-
 <body>
-
 <h1>⚛ Atomic Explorer</h1>
 <p class="subtitle">Explore the 118 Elements of the Periodic Table</p>
-
 <input id="search" placeholder="Search by name, symbol or atomic number">
-
 <div class="legend">
-<span class="alkali">Alkali metal</span>
-<span class="alkaline">Alkaline earth</span>
-<span class="transition">Transition metal</span>
-<span class="post-transition">Post-transition</span>
-<span class="metalloid">Metalloid</span>
-<span class="nonmetal">Nonmetal</span>
-<span class="halogen">Halogen</span>
-<span class="noble">Noble gas</span>
-<span class="lanthanide">Lanthanide</span>
-<span class="actinide">Actinide</span>
+<span class="alkali">Alkali metal</span><span class="alkaline">Alkaline earth</span>
+<span class="transition">Transition metal</span><span class="post-transition">Post-transition</span>
+<span class="metalloid">Metalloid</span><span class="nonmetal">Nonmetal</span>
+<span class="halogen">Halogen</span><span class="noble">Noble gas</span>
+<span class="lanthanide">Lanthanide</span><span class="actinide">Actinide</span>
 </div>
-
-<div class="table-wrap">
-<div class="periodic-table" id="table"></div>
-</div>
+<div class="table-wrap"><div class="periodic-table" id="table"></div></div>
 
 <div id="details">
-
 <h2 id="element-name"></h2>
-
 <div class="details-grid">
-<p id="atomic-number"></p>
-<p id="atomic-mass"></p>
-<p id="protons"></p>
-<p id="electrons"></p>
-<p id="neutrons"></p>
-<p id="configuration"></p>
+<p id="atomic-number"></p><p id="atomic-mass"></p>
+<p id="protons"></p><p id="electrons"></p>
+<p id="neutrons"></p><p id="configuration"></p>
 </div>
-
 <h3 id="atom-heading">3D Atom Model</h3>
-
 <div id="atom-container"></div>
-
 <div class="atom-legend">
 <span><i class="dot proton-dot"></i> Protons</span>
 <span><i class="dot neutron-dot"></i> Neutrons</span>
 <span><i class="dot electron-dot"></i> Electrons</span>
 </div>
+<p class="atom-note">This is an educational 3D representation of an atom. The nucleus and electron orbits are not shown to scale. The nucleus uses a simplified visual representation.</p>
 
-<p class="atom-note">
-This is an educational 3D representation of an atom.
-The nucleus and electron orbits are not shown to scale.
-The nucleus uses a simplified visual representation.
-</p>
-
+<h3 id="qr-heading">QR Code for this element</h3>
+<div id="qr-area">
+<div id="qrcode"></div>
+<div id="qr-link"></div>
+<button id="download-qr">Download QR Code</button>
+<p class="atom-note">Scan this code with any iPhone or Android phone to open this element directly on the website.</p>
+</div>
 <button id="close-button">Close</button>
-
 </div>
 
-<!-- Three.js 3D Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script type="module">
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
-
-const container = document.getElementById("atom-container");
-
-let scene;
-let camera;
-let renderer;
-let atomGroup;
-let animationStarted = false;
+const container=document.getElementById("atom-container");
+let scene,camera,renderer,atomGroup,animationStarted=false;
 
 function initAtom(){
-
-if(renderer) return;
-
-scene = new THREE.Scene();
-
-camera = new THREE.PerspectiveCamera(
-45,
-container.clientWidth / container.clientHeight,
-0.1,
-1000
-);
-
-camera.position.set(0,0,13);
-
-renderer = new THREE.WebGLRenderer({
-antialias:true,
-alpha:true
-});
-
-renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
-
-renderer.setSize(
-container.clientWidth,
-container.clientHeight
-);
-
-container.appendChild(renderer.domElement);
-
-scene.add(new THREE.AmbientLight(0xffffff,1.5));
-
-const light = new THREE.PointLight(0xffffff,2);
-light.position.set(5,5,8);
-scene.add(light);
-
-atomGroup = new THREE.Group();
-scene.add(atomGroup);
-
-window.addEventListener("resize",resizeAtom);
-
-if(!animationStarted){
-animationStarted=true;
-animateAtom();
+ if(renderer)return;
+ scene=new THREE.Scene();
+ camera=new THREE.PerspectiveCamera(45,container.clientWidth/container.clientHeight,0.1,1000);
+ camera.position.set(0,0,13);
+ renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+ renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+ renderer.setSize(container.clientWidth,container.clientHeight);
+ container.appendChild(renderer.domElement);
+ scene.add(new THREE.AmbientLight(0xffffff,1.5));
+ const light=new THREE.PointLight(0xffffff,2);light.position.set(5,5,8);scene.add(light);
+ atomGroup=new THREE.Group();scene.add(atomGroup);
+ window.addEventListener("resize",resizeAtom);
+ if(!animationStarted){animationStarted=true;animateAtom();}
 }
-}
-
 function resizeAtom(){
-
-if(!renderer || !camera) return;
-
-const width=container.clientWidth;
-const height=container.clientHeight;
-
-camera.aspect=width/height;
-camera.updateProjectionMatrix();
-
-renderer.setSize(width,height);
+ if(!renderer||!camera)return;
+ const w=container.clientWidth,h=container.clientHeight;
+ camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h);
 }
-
 function makeSphere(radius,color,x,y,z){
-
-const geometry=new THREE.SphereGeometry(radius,20,20);
-
-const material=new THREE.MeshStandardMaterial({
-color:color,
-roughness:0.35,
-metalness:0.1
-});
-
-const sphere=new THREE.Mesh(geometry,material);
-
-sphere.position.set(x,y,z);
-
-return sphere;
+ const geometry=new THREE.SphereGeometry(radius,20,20);
+ const material=new THREE.MeshStandardMaterial({color,roughness:.35,metalness:.1});
+ const sphere=new THREE.Mesh(geometry,material);sphere.position.set(x,y,z);return sphere;
 }
-
 function createNucleus(protons,neutrons){
-
-const total=protons+neutrons;
-
-const visibleCount=Math.min(total,36);
-
-const radius=0.18;
-
-for(let i=0;i<visibleCount;i++){
-
-const angle=i*2.399;
-const vertical=1-(2*(i+0.5)/visibleCount);
-
-const ring=Math.sqrt(1-vertical*vertical);
-
-const x=ring*Math.cos(angle);
-const y=vertical;
-const z=ring*Math.sin(angle);
-
-const isProton=i<Math.round(
-visibleCount*protons/total
-);
-
-const color=isProton?0xff626f:0xb8bdce;
-
-const particle=makeSphere(
-radius,
-color,
-x*0.65,
-y*0.65,
-z*0.65
-);
-
-atomGroup.add(particle);
+ const total=protons+neutrons,visibleCount=Math.min(total,36),radius=.18;
+ for(let i=0;i<visibleCount;i++){
+  const angle=i*2.399,vertical=1-(2*(i+.5)/visibleCount),ring=Math.sqrt(1-vertical*vertical);
+  const isProton=i<Math.round(visibleCount*protons/total);
+  atomGroup.add(makeSphere(radius,isProton?0xff626f:0xb8bdce,ring*Math.cos(angle)*.65,vertical*.65,ring*Math.sin(angle)*.65));
+ }
 }
+function createOrbit(electronCount,index){
+ const orbitRadius=1.5+index*.65,orbitGroup=new THREE.Group();
+ orbitGroup.rotation.x=(index%2)*.8+.3;orbitGroup.rotation.y=index*.55;atomGroup.add(orbitGroup);
+ const ring=new THREE.Mesh(new THREE.TorusGeometry(orbitRadius,.009,8,120),new THREE.MeshBasicMaterial({color:0x7663c9,transparent:true,opacity:.65}));
+ orbitGroup.add(ring);
+ for(let i=0;i<electronCount;i++){
+  const angle=2*Math.PI*i/electronCount,electron=makeSphere(.09,0x55caff,Math.cos(angle)*orbitRadius,Math.sin(angle)*orbitRadius,0);
+  electron.userData={angle,radius:orbitRadius,speed:.8+index*.12,isElectron:true};orbitGroup.add(electron);
+ }
+ orbitGroup.userData={isOrbit:true,index};
 }
-
-function createOrbit(shellNumber,electronCount,index){
-
-const orbitRadius=1.5+index*0.65;
-
-const orbitGroup=new THREE.Group();
-
-orbitGroup.rotation.x=(index%2)*0.8+0.3;
-orbitGroup.rotation.y=index*0.55;
-
-atomGroup.add(orbitGroup);
-
-const ringGeometry=new THREE.TorusGeometry(
-orbitRadius,
-0.009,
-8,
-120
-);
-
-const ringMaterial=new THREE.MeshBasicMaterial({
-color:0x7663c9,
-transparent:true,
-opacity:0.65
-});
-
-const ring=new THREE.Mesh(ringGeometry,ringMaterial);
-orbitGroup.add(ring);
-
-for(let i=0;i<electronCount;i++){
-
-const angle=(Math.PI*2*i)/electronCount;
-
-const electron=makeSphere(
-0.09,
-0x55caff,
-Math.cos(angle)*orbitRadius,
-Math.sin(angle)*orbitRadius,
-0
-);
-
-electron.userData.angle=angle;
-electron.userData.radius=orbitRadius;
-electron.userData.speed=0.8+index*0.12;
-
-orbitGroup.add(electron);
-}
-
-orbitGroup.userData.isOrbit=true;
-orbitGroup.userData.index=index;
-}
-
 function clearAtom(){
-
-while(atomGroup.children.length>0){
-
-const object=atomGroup.children[0];
-
-atomGroup.remove(object);
-
-object.traverse(child=>{
-
-if(child.geometry) child.geometry.dispose();
-
-if(child.material){
-
-if(Array.isArray(child.material)){
-child.material.forEach(m=>m.dispose());
-}else{
-child.material.dispose();
+ while(atomGroup.children.length){
+  const object=atomGroup.children[0];atomGroup.remove(object);
+  object.traverse(child=>{
+   if(child.geometry)child.geometry.dispose();
+   if(child.material){if(Array.isArray(child.material))child.material.forEach(m=>m.dispose());else child.material.dispose();}
+  });
+ }
 }
-
-}
-
-});
-
-}
-}
-
 window.renderAtom=function(atomicNumber,shells){
-
-try{
-
-initAtom();
-clearAtom();
-
-createNucleus(
-atomicNumber,
-Math.max(0,Math.round(atomicNumber*1.2))
-);
-
-shells.forEach((count,index)=>{
-
-if(count>0){
-createOrbit(index+1,count,index);
-}
-
-});
-
-resizeAtom();
-
-}catch(error){
-
-container.innerHTML=
-"<p style='padding:30px;color:#ffaaaa'>3D model could not be loaded. Please check your internet connection and reload the page.</p>";
-
-console.error(error);
-}
-
+ try{
+  initAtom();clearAtom();
+  createNucleus(atomicNumber,Math.max(0,Math.round(atomicNumber*1.2)));
+  shells.forEach((count,index)=>{if(count>0)createOrbit(count,index);});
+  resizeAtom();
+ }catch(error){
+  container.innerHTML="<p style='padding:30px;color:#ffaaaa'>3D model could not be loaded. Check your internet connection and reload the page.</p>";
+  console.error(error);
+ }
 };
-
+if(window.pendingAtom){
+ window.renderAtom(window.pendingAtom.atomicNumber,window.pendingAtom.shells);
+ window.pendingAtom=null;
+}
 function animateAtom(){
-
-requestAnimationFrame(animateAtom);
-
-if(!renderer || !scene) return;
-
-atomGroup.rotation.y+=0.003;
-
-atomGroup.children.forEach(object=>{
-
-if(object.userData.isOrbit){
-
-object.rotation.z+=0.004*(object.userData.index+1);
-
-object.children.forEach(child=>{
-
-if(child.geometry && child.geometry.type==="SphereGeometry"){
-
-child.userData.angle+=0.025*child.userData.speed;
-
-child.position.x=Math.cos(child.userData.angle)*child.userData.radius;
-child.position.y=Math.sin(child.userData.angle)*child.userData.radius;
-
-}
-
-});
-
-}
-
-});
-
-renderer.render(scene,camera);
+ requestAnimationFrame(animateAtom);
+ if(!renderer||!scene)return;
+ atomGroup.rotation.y+=.003;
+ atomGroup.children.forEach(object=>{
+  if(object.userData.isOrbit){
+   object.rotation.z+=.004*(object.userData.index+1);
+   object.children.forEach(child=>{
+    if(child.userData.isElectron){
+     child.userData.angle+=.025*child.userData.speed;
+     child.position.x=Math.cos(child.userData.angle)*child.userData.radius;
+     child.position.y=Math.sin(child.userData.angle)*child.userData.radius;
+    }
+   });
+  }
+ });
+ renderer.render(scene,camera);
 }
 </script>
 
 <script>
-const rawElements = [
-["H","Hydrogen",1],["He","Helium",2],
-["Li","Lithium",3],["Be","Beryllium",4],["B","Boron",5],["C","Carbon",6],["N","Nitrogen",7],["O","Oxygen",8],["F","Fluorine",9],["Ne","Neon",10],
+const rawElements=[
+["H","Hydrogen",1],["He","Helium",2],["Li","Lithium",3],["Be","Beryllium",4],["B","Boron",5],["C","Carbon",6],["N","Nitrogen",7],["O","Oxygen",8],["F","Fluorine",9],["Ne","Neon",10],
 ["Na","Sodium",11],["Mg","Magnesium",12],["Al","Aluminium",13],["Si","Silicon",14],["P","Phosphorus",15],["S","Sulfur",16],["Cl","Chlorine",17],["Ar","Argon",18],
 ["K","Potassium",19],["Ca","Calcium",20],["Sc","Scandium",21],["Ti","Titanium",22],["V","Vanadium",23],["Cr","Chromium",24],["Mn","Manganese",25],["Fe","Iron",26],["Co","Cobalt",27],["Ni","Nickel",28],["Cu","Copper",29],["Zn","Zinc",30],["Ga","Gallium",31],["Ge","Germanium",32],["As","Arsenic",33],["Se","Selenium",34],["Br","Bromine",35],["Kr","Krypton",36],
 ["Rb","Rubidium",37],["Sr","Strontium",38],["Y","Yttrium",39],["Zr","Zirconium",40],["Nb","Niobium",41],["Mo","Molybdenum",42],["Tc","Technetium",43],["Ru","Ruthenium",44],["Rh","Rhodium",45],["Pd","Palladium",46],["Ag","Silver",47],["Cd","Cadmium",48],["In","Indium",49],["Sn","Tin",50],["Sb","Antimony",51],["Te","Tellurium",52],["I","Iodine",53],["Xe","Xenon",54],
 ["Cs","Cesium",55],["Ba","Barium",56],["La","Lanthanum",57],["Ce","Cerium",58],["Pr","Praseodymium",59],["Nd","Neodymium",60],["Pm","Promethium",61],["Sm","Samarium",62],["Eu","Europium",63],["Gd","Gadolinium",64],["Tb","Terbium",65],["Dy","Dysprosium",66],["Ho","Holmium",67],["Er","Erbium",68],["Tm","Thulium",69],["Yb","Ytterbium",70],["Lu","Lutetium",71],["Hf","Hafnium",72],["Ta","Tantalum",73],["W","Tungsten",74],["Re","Rhenium",75],["Os","Osmium",76],["Ir","Iridium",77],["Pt","Platinum",78],["Au","Gold",79],["Hg","Mercury",80],["Tl","Thallium",81],["Pb","Lead",82],["Bi","Bismuth",83],["Po","Polonium",84],["At","Astatine",85],["Rn","Radon",86],
 ["Fr","Francium",87],["Ra","Radium",88],["Ac","Actinium",89],["Th","Thorium",90],["Pa","Protactinium",91],["U","Uranium",92],["Np","Neptunium",93],["Pu","Plutonium",94],["Am","Americium",95],["Cm","Curium",96],["Bk","Berkelium",97],["Cf","Californium",98],["Es","Einsteinium",99],["Fm","Fermium",100],["Md","Mendelevium",101],["No","Nobelium",102],["Lr","Lawrencium",103],["Rf","Rutherfordium",104],["Db","Dubnium",105],["Sg","Seaborgium",106],["Bh","Bohrium",107],["Hs","Hassium",108],["Mt","Meitnerium",109],["Ds","Darmstadtium",110],["Rg","Roentgenium",111],["Cn","Copernicium",112],["Nh","Nihonium",113],["Fl","Flerovium",114],["Mc","Moscovium",115],["Lv","Livermorium",116],["Ts","Tennessine",117],["Og","Oganesson",118]
 ];
-
-const masses = [
+const masses=[
 1.008,4.0026,6.94,9.0122,10.81,12.011,14.007,15.999,18.998,20.180,
 22.990,24.305,26.982,28.085,30.974,32.06,35.45,39.948,39.098,40.078,
 44.956,47.867,50.942,51.996,54.938,55.845,58.933,58.693,63.546,65.38,
@@ -553,172 +197,93 @@ const masses = [
 237,244,243,247,247,251,252,257,258,259,266,267,268,269,270,277,
 278,281,282,285,286,289,290,293,294,294
 ];
-
-const table = document.getElementById("table");
-
+const table=document.getElementById("table");
 function getCategory(n){
-
-if(n>=57&&n<=71)return "lanthanide";
-if(n>=89&&n<=103)return "actinide";
-if([1,6,7,8,15,16,34].includes(n))return "nonmetal";
-if([2,10,18,36,54,86,118].includes(n))return "noble";
-if([9,17,35,53,85,117].includes(n))return "halogen";
-if([5,14,32,33,51,52,84].includes(n))return "metalloid";
-if([3,11,19,37,55,87].includes(n))return "alkali";
-if([4,12,20,38,56,88].includes(n))return "alkaline";
-if([13,31,49,50,81,82,83,113,114,115,116].includes(n))return "post-transition";
-
-return "transition";
+ if(n>=57&&n<=71)return"lanthanide";if(n>=89&&n<=103)return"actinide";
+ if([1,6,7,8,15,16,34].includes(n))return"nonmetal";
+ if([2,10,18,36,54,86,118].includes(n))return"noble";
+ if([9,17,35,53,85,117].includes(n))return"halogen";
+ if([5,14,32,33,51,52,84].includes(n))return"metalloid";
+ if([3,11,19,37,55,87].includes(n))return"alkali";
+ if([4,12,20,38,56,88].includes(n))return"alkaline";
+ if([13,31,49,50,81,82,83,113,114,115,116].includes(n))return"post-transition";
+ return"transition";
 }
-
 function getPosition(n){
-
-if(n===1)return [1,1];
-if(n===2)return [1,18];
-if(n>=3&&n<=4)return [2,n-2];
-if(n>=5&&n<=10)return [2,n+8];
-if(n>=11&&n<=12)return [3,n-10];
-if(n>=13&&n<=18)return [3,n];
-if(n>=19&&n<=36)return [4,n-18];
-if(n>=37&&n<=54)return [5,n-36];
-if(n===55)return [6,1];
-if(n===56)return [6,2];
-if(n>=57&&n<=71)return [8,n-54];
-if(n>=72&&n<=86)return [6,n-68];
-if(n===87)return [7,1];
-if(n===88)return [7,2];
-if(n>=89&&n<=103)return [9,n-86];
-if(n>=104&&n<=118)return [7,n-100];
-
+ if(n===1)return[1,1];if(n===2)return[1,18];
+ if(n>=3&&n<=4)return[2,n-2];if(n>=5&&n<=10)return[2,n+8];
+ if(n>=11&&n<=12)return[3,n-10];if(n>=13&&n<=18)return[3,n];
+ if(n>=19&&n<=36)return[4,n-18];if(n>=37&&n<=54)return[5,n-36];
+ if(n===55)return[6,1];if(n===56)return[6,2];
+ if(n>=57&&n<=71)return[8,n-54];if(n>=72&&n<=86)return[6,n-68];
+ if(n===87)return[7,1];if(n===88)return[7,2];
+ if(n>=89&&n<=103)return[9,n-86];if(n>=104&&n<=118)return[7,n-100];
 }
-
 function addElement(el){
-
-const [symbol,name,n]=el;
-const [row,col]=getPosition(n);
-
-const card=document.createElement("div");
-
-card.className="element "+getCategory(n);
-card.style.gridRow=row;
-card.style.gridColumn=col;
-
-card.innerHTML=`
-<span class="number">${n}</span>
-<span class="symbol">${symbol}</span>
-<span class="name">${name}</span>
-`;
-
-card.onclick=()=>showDetails(el);
-
-table.appendChild(card);
+ const[symbol,name,n]=el,[row,col]=getPosition(n),card=document.createElement("div");
+ card.className="element "+getCategory(n);card.style.gridRow=row;card.style.gridColumn=col;
+ card.innerHTML=`<span class="number">${n}</span><span class="symbol">${symbol}</span><span class="name">${name}</span>`;
+ card.onclick=()=>showDetails(el);table.appendChild(card);
 }
-
 rawElements.forEach(addElement);
-
 function getElectronConfiguration(n){
-
-const orbitals=[
-[1,0,2],[2,0,2],[2,1,6],[3,0,2],[3,1,6],
-[4,0,2],[3,2,10],[4,1,6],[5,0,2],[4,2,10],
-[5,1,6],[6,0,2],[4,3,14],[5,2,10],[6,1,6],
-[7,0,2],[5,3,14],[6,2,10],[7,1,6]
-];
-
-let shells=[0,0,0,0,0,0,0];
-let remaining=n;
-let parts=[];
-
-for(const [level,type,capacity] of orbitals){
-
-if(remaining<=0)break;
-
-const count=Math.min(remaining,capacity);
-
-shells[level-1]+=count;
-remaining-=count;
-
-const letters=["s","p","d","f"];
-
-parts.push(level+letters[type]+count);
+ const orbitals=[[1,0,2],[2,0,2],[2,1,6],[3,0,2],[3,1,6],[4,0,2],[3,2,10],[4,1,6],[5,0,2],[4,2,10],[5,1,6],[6,0,2],[4,3,14],[5,2,10],[6,1,6],[7,0,2],[5,3,14],[6,2,10],[7,1,6]];
+ let shells=[0,0,0,0,0,0,0],remaining=n,parts=[];
+ for(const[level,type,capacity]of orbitals){
+  if(remaining<=0)break;
+  const count=Math.min(remaining,capacity);shells[level-1]+=count;remaining-=count;
+  parts.push(level+["s","p","d","f"][type]+count);
+ }
+ return{shells,configuration:parts.join(" ")};
 }
-
-return {
-shells,
-configuration:parts.join(" ")
-};
+function makeQr(symbol){
+ const qrBox=document.getElementById("qrcode"),linkBox=document.getElementById("qr-link");
+ qrBox.innerHTML="";
+ const url=new URL(window.location.href);
+ url.search="";url.hash="";url.searchParams.set("element",symbol);
+ const link=url.toString();
+ linkBox.textContent=link;
+ if(typeof QRCode==="undefined"){
+  qrBox.textContent="QR library could not load. Check your internet connection.";
+  return;
+ }
+ new QRCode(qrBox,{text:link,width:180,height:180,colorDark:"#090d20",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.H});
 }
-
 function showDetails(el){
-
-const [symbol,name,n]=el;
-
-const mass=masses[n-1];
-const neutrons=Math.round(mass)-n;
-
-const result=getElectronConfiguration(n);
-
-document.getElementById("details").style.display="block";
-
-document.getElementById("element-name").textContent=
-name+" ("+symbol+")";
-
-document.getElementById("atomic-number").textContent=
-"Atomic Number: "+n;
-
-document.getElementById("atomic-mass").textContent=
-"Atomic Mass: "+mass;
-
-document.getElementById("protons").textContent=
-"Protons: "+n;
-
-document.getElementById("electrons").textContent=
-"Electrons: "+n;
-
-document.getElementById("neutrons").textContent=
-"Estimated Neutrons: "+neutrons;
-
-document.getElementById("configuration").textContent=
-"Electron Configuration: "+result.configuration+
-" | Shells: "+result.shells.join(", ");
-
-if(window.renderAtom){
-window.renderAtom(n,result.shells);
+ const[symbol,name,n]=el,mass=masses[n-1],neutrons=Math.round(mass)-n,result=getElectronConfiguration(n);
+ document.getElementById("details").style.display="block";
+ document.getElementById("element-name").textContent=name+" ("+symbol+")";
+ document.getElementById("atomic-number").textContent="Atomic Number: "+n;
+ document.getElementById("atomic-mass").textContent="Atomic Mass: "+mass;
+ document.getElementById("protons").textContent="Protons: "+n;
+ document.getElementById("electrons").textContent="Electrons: "+n;
+ document.getElementById("neutrons").textContent="Estimated Neutrons: "+neutrons;
+ document.getElementById("configuration").textContent="Electron Configuration: "+result.configuration+" | Shells: "+result.shells.join(", ");
+ makeQr(symbol);
+ if(window.renderAtom)window.renderAtom(n,result.shells);else window.pendingAtom={atomicNumber:n,shells:result.shells};
+ document.getElementById("details").scrollIntoView({behavior:"smooth"});
 }
-
-document.getElementById("details").scrollIntoView({
-behavior:"smooth"
+function closeDetails(){document.getElementById("details").style.display="none";}
+document.getElementById("close-button").addEventListener("click",closeDetails);
+document.getElementById("download-qr").addEventListener("click",()=>{
+ const qr=document.querySelector("#qrcode canvas")||document.querySelector("#qrcode img");
+ if(!qr){alert("QR code is not ready yet.");return;}
+ const link=document.createElement("a");
+ link.href=qr.tagName.toLowerCase()==="canvas"?qr.toDataURL("image/png"):qr.src;
+ link.download="Atomic-Explorer-"+(new URLSearchParams(location.search).get("element")||"Element")+".png";
+ link.click();
 });
-
-}
-
-function closeDetails(){
-
-document.getElementById("details").style.display="none";
-
-}
-
-document.getElementById("close-button").addEventListener(
-"click",
-closeDetails
-);
-
-document.getElementById("search").addEventListener(
-"input",
-function(){
-
-const value=this.value.toLowerCase().trim();
-
-document.querySelectorAll(".element").forEach(card=>{
-
-card.style.opacity=
-card.textContent.toLowerCase().includes(value)?"1":"0.15";
-
+document.getElementById("search").addEventListener("input",function(){
+ const value=this.value.toLowerCase().trim();
+ document.querySelectorAll(".element").forEach(card=>{
+  card.style.opacity=card.textContent.toLowerCase().includes(value)?"1":"0.15";
+ });
 });
-
+const requestedElement=new URLSearchParams(window.location.search).get("element");
+if(requestedElement){
+ const found=rawElements.find(el=>el[0].toLowerCase()===requestedElement.toLowerCase()||String(el[2])===requestedElement);
+ if(found)showDetails(found);
 }
-);
 </script>
-
 </body>
 </html>
